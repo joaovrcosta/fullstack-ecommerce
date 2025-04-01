@@ -48,9 +48,9 @@ function Header() {
         <div className="flex items-center space-x-4 mt-4 sm:mt-0 flex-1 sm:flex-none">
           <Link
             href="/cart"
-            className="flex bg-blue-400 px-4 py-2 rounded w-full items-center justify-center"
+            className="flex bg-blue-400 px-4 py-2 rounded w-full items-center justify-center text-white"
           >
-            <span>My Cart</span>
+            <span className="text-bold">My Cart</span>
           </Link>
 
           <ClerkLoaded>
@@ -59,7 +59,7 @@ function Header() {
                 href="/orders"
                 className="flex bg-blue-400 px-4 py-2 rounded w-full justify-center items-center"
               >
-                <div className="space-x-2 flex items-center">
+                <div className="space-x-2 flex items-center text-white  text-semibold">
                   <PackageIcon className="h-6 w-6" />
                   <span>Orders</span>
                 </div>
@@ -70,7 +70,7 @@ function Header() {
               <div className="flex items-center space-x-2">
                 <UserButton />
                 <div className="hidden sm:block text-xs">
-                  <p className="text-gray-400">Welcome back</p>
+                  <p className="text-gray-400 text-nowrap">Welcome back</p>
                   <p className="text-gray-800">{user.fullName}!</p>
                 </div>
               </div>
@@ -78,14 +78,14 @@ function Header() {
               <SignInButton />
             )}
 
-            {user?.passkeys.length === 0 && (
+            {/* {user?.passkeys.length === 0 && (
               <Button
                 onClick={createClerkPasskey}
                 className="bg-white hover:bg-blue-700 hover:text-white animate-pulse text-blue-500 font-bold py-2 px-4 rounded border-blue-300 border"
               >
                 Create passkey
               </Button>
-            )}
+            )} */}
           </ClerkLoaded>
         </div>
       </div>
