@@ -1,36 +1,212 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Full-Stack E-Commerce
 
-## Getting Started
+A modern and robust e-commerce application built with **Next.js 15**, **TypeScript**, **Tailwind CSS**, and **Sanity CMS**. This application offers a seamless shopping experience with features like user authentication, cart management, and a headless CMS for product management.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Features
+
+- 🛍️ **Dynamic product catalog**
+- 🔐 **User authentication with Clerk**
+- 🛒 **Shopping cart management with Zustand**
+- 📱 **Responsive and modern design**
+- 🎨 **Custom UI with Tailwind CSS and Radix UI**
+- 🖼️ **Content management with Sanity CMS**
+- ⚡ **Optimized performance with Next.js 15**
+- 🔄 **Global state management with Zustand**
+- 🎭 **Smooth animations with Framer Motion**
+
+---
+
+## 🛠️ Tech Stack
+
+### **Frontend**
+
+- **Next.js 15.1.0**
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Radix UI Components**
+- **Clerk Authentication**
+
+### **Backend & CMS**
+
+- **Sanity v3**
+- **Next.js API Routes**
+- **Clerk Authentication**
+
+### **State & Management**
+
+- **Zustand for global state**
+- **Sanity Client for content management**
+
+---
+
+## 🚀 Quick Start
+
+### **Clone the repository**
+
+```sh
+git clone [repository-url]
+cd Full-Stack-E-Commerce
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Install dependencies**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+bun install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### **Set up environment variables**
 
-## Learn More
+Create a `.env.local` file based on `.env.example`:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your-clerk-key
+CLERK_SECRET_KEY=your-clerk-secret
+SANITY_API_READ_TOKEN=your-sanity-token
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### **Start the development server**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```sh
+# Development with Turbopack
+bun run dev
 
-## Deploy on Vercel
+# Development with Sanity Studio
+bun run dev:sanity
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Project Structure
+
+```
+├── app/                # Next.js routes and pages
+├── components/         # Reusable components
+│   ├── ui/            # Base UI components
+│   └── ...            # Other components
+├── lib/               # Utilities and configurations
+├── public/            # Static files
+├── sanity/            # Sanity configuration and schemas
+├── store/             # Global state with Zustand
+└── types/             # TypeScript type definitions
+```
+
+---
+
+## 🧩 Core Components
+
+- **Header.tsx**: Main navigation and cart
+- **ProductGrid.tsx**: Product grid display
+- **AddToBasketButton.tsx**: Cart management
+- **BlackFridayBanner.tsx**: Promotional banner
+- **ProductThumb.tsx**: Product preview
+
+---
+
+## 🔧 Hooks and Utilities
+
+- Zustand store for cart management
+- Custom hooks for products and categories
+- Sanity utilities for image and content management
+
+---
+
+## 📚 API Documentation
+
+The application uses the following APIs:
+
+- **Clerk** for authentication
+- **Sanity** for content management
+- **Next.js API Routes** for custom endpoints
+
+---
+
+## 🎨 Design and UI
+
+- Custom design system with Tailwind CSS
+- Radix UI components for accessibility
+- Framer Motion animations
+- Responsive design for all screens
+
+---
+
+## 📜 Dependencies and Scripts
+
+```json
+"dependencies": {
+   "@commitlint/cli": "^19.6.0",
+   "@commitlint/config-conventional": "^19.6.0",
+   "commitlint": "^19.6.0",
+   "eslint": "9.17.0",
+   "eslint-config-prettier": "^9.1.0",
+   "eslint-plugin-prettier": "^5.2.1",
+   "husky": "^9.1.7",
+   "prettier": "^3.4.2"
+}
+```
+
+### **Commands for Husky**
+
+```sh
+npx husky add .husky/pre-commit "bun run format && bun run lint"
+npx husky add .husky/commit-msg "bun x --no-install commitlint --edit $1"
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. **Fork the repository**
+2. **Create a feature branch**
+3. **Commit your changes**
+4. **Push to the branch**
+5. **Open a Pull Request**
+
+---
+
+## 🔜 Roadmap
+
+- [x] Add multiple payment gateways
+- [ ] Implement wishlist functionality
+- [ ] Add product reviews and ratings
+- [x] Integrate email notifications
+- [ ] Add social sharing features
+- [ ] Implement advanced filtering options
+- [ ] Add multi-language support
+- [ ] Integrate with multiple shipping providers
+
+---
+
+## 💡 Best Practices
+
+- Follows **Next.js 15 best practices**
+- Implements **modern React patterns**
+- Uses **TypeScript for type safety**
+- Follows **accessibility guidelines**
+- Implements **SEO best practices**
+- Uses **modern CSS techniques**
+- Follows **security best practices**
+- Implements **performance optimizations**
+
+---
+
+## 📝 License
+
+This project is under the **MIT License**.
+
+---
+
+## 👥 Author
+
+[Deus lo vult]
