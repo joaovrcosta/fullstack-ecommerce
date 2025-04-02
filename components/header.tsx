@@ -10,20 +10,17 @@ import {
 import Link from "next/link";
 import Form from "next/form";
 import React from "react";
-import { PackageIcon } from "@sanity/icons";
+import { PackageIcon, TrolleyIcon } from "@sanity/icons";
 import { Button } from "./ui/button";
+import useBasketStore from "@/stores/cart-store";
+import { ShoppingCart } from "lucide-react";
 
 function Header() {
   const { user } = useUser();
 
-  const createClerkPasskey = async () => {
-    try {
-      const response = await user?.createPasskey();
-      console.log(response);
-    } catch (err) {
-      console.log("errro", JSON.stringify(err, null, 2));
-    }
-  };
+  const itemCount = useBasketStore((state) =>
+    state.items.reduce((total, item) => total + item.quantity, 0)
+  );
 
   return (
     <header className="flex flex-wrap justify-between items-center px-4 py-2 w-full">
@@ -46,11 +43,14 @@ function Header() {
           />
         </Form>
         <div className="flex items-center space-x-4 mt-4 sm:mt-0 flex-1 sm:flex-none">
-          <Link
-            href="/cart"
-            className="flex bg-blue-400 px-4 py-2 rounded w-full items-center justify-center text-white"
-          >
-            <span className="text-bold">My Cart</span>
+          <Link href={"/basket"}>
+            <Button variant="ghost" size="icon" className="relative">
+              <ShoppingCart className="h-5 w-5" />
+              <span className="sr-only">Carrito</span>
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-black text-white text-xs flex items-center justify-center">
+                {itemCount}
+              </span>
+            </Button>
           </Link>
 
           <ClerkLoaded>

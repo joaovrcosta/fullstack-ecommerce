@@ -47,7 +47,7 @@ export function CategorySelectorComponent({
         >
           {value
             ? categories.find((category) => category._id === value)?.title
-            : "Filtrar"}
+            : "Filtrar por categoria"}
           <ChevronsUpDown className="w-4 h-4 shrink-0" />
         </Button>
       </PopoverTrigger>

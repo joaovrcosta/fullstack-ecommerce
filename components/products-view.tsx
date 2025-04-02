@@ -12,7 +12,7 @@ export const ProductsView = ({ products, categories }: ProductsViewProps) => {
     <div className="flex flex-col">
       {/* categories */}
       <div className="w-full sm:w-[200px]">
-        <CategorySelectorComponent categories={[]} />
+        <CategorySelectorComponent categories={categories} />
       </div>
 
       {/* products */}
