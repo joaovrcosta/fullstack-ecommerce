@@ -1,6 +1,5 @@
 import { SalesBanner } from "@/components/black-friday-sale-banner";
 import { ProductsView } from "@/components/products-view";
-import { Button } from "@/components/ui/button";
 import { getAllCategories } from "@/sanity/lib/products/getAllCategories";
 import { getAllProducts } from "@/sanity/lib/products/getAllProducts";
 

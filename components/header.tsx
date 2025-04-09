@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import Form from "next/form";
 import React from "react";
-import { PackageIcon, TrolleyIcon } from "@sanity/icons";
+import { PackageIcon } from "@sanity/icons";
 import { Button } from "./ui/button";
 import useBasketStore from "@/stores/cart-store";
 import { ShoppingCart } from "lucide-react";

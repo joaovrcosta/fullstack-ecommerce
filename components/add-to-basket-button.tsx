@@ -1,7 +1,6 @@
 "use client";
 
 import { Product } from "@/sanity.types";
-import { Button } from "./ui/button";
 import useBasketStore from "@/stores/cart-store";
 import { useEffect, useState } from "react";
 
