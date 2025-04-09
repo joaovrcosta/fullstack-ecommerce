@@ -4,7 +4,7 @@ import { imageUrl } from "@/lib/imageUrl";
 import stripe from "@/lib/stripe";
 import { BasketItem } from "@/stores/cart-store";
 
-export type MetaData = {
+export type Metadata = {
   orderNumber: string;
   customerName: string;
   customerEmail: string;
@@ -17,25 +17,29 @@ export type GroupedBasketItem = {
 };
 
 export async function createCheckoutSession(
-  items: GroupedBasketItem[],
-  metadata: MetaData
+  items: BasketItem[],
+  metadata: Metadata
 ) {
   try {
+    //    check if any grouped items dont have a price
     const itemsWithoutPrice = items.filter((item) => !item.product.price);
+
     if (itemsWithoutPrice.length > 0) {
-      throw new Error(
-        "Some items do not have a price. Please check your items."
-      );
+      throw new Error("Grouped items do not have a price");
     }
 
-    const customers = await stripe.customers.list({
+    // Search if any grouped items dont have a price
+    const customer = await stripe.customers.list({
       email: metadata.customerEmail,
       limit: 1,
     });
+
     let customerId: string | undefined;
-    if (customers.data.length > 0) {
-      customerId = customers.data[0].id;
+
+    if (customer.data.length > 0) {
+      customerId = customer.data[0].id;
     }
+
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_creation: customerId ? undefined : "always",
@@ -50,7 +54,7 @@ export async function createCheckoutSession(
           currency: "usd",
           unit_amount: Math.round(item.product.price! * 100),
           product_data: {
-            name: item.product.name || "Unnamed Product",
+            name: item.product.name || "Unnamed product",
             description: `Product ID: ${item.product._id}`,
             metadata: {
               id: item.product._id,
@@ -63,10 +67,8 @@ export async function createCheckoutSession(
         quantity: item.quantity,
       })),
     });
-
     return session.url;
   } catch (error) {
     console.log("Error creating checkout session:", error);
-    throw error;
   }
 }

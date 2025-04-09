@@ -1,4 +1,4 @@
-import { MetaData } from "@/actions/create-checkout-session";
+import { Metadata } from "@/actions/create-checkout-session";
 import stripe from "@/lib/stripe";
 import { backendClient } from "@/sanity/lib/backendClient";
 import { headers } from "next/headers";
@@ -11,40 +11,40 @@ export async function POST(req: NextRequest) {
   const sig = headersList.get("stripe-signature");
 
   if (!sig) {
-    return NextResponse.json(
-      { error: "Missing Stripe signature" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "No signature found" }, { status: 400 });
   }
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!webhookSecret) {
-    console.log("Missing webhook secret");
     return NextResponse.json(
-      { error: "Missing webhook secret" },
+      { error: "No webhook secret found" },
       { status: 400 }
     );
   }
 
   let event: Stripe.Event;
+
   try {
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (error) {
-    console.log("Error constructing webhook event:", error);
-    return NextResponse.json({ error: "Webhook Error" }, { status: 400 });
+    console.log("Error constructing event:", error);
+    return NextResponse.json(
+      { error: "Webhook signature verification failed" },
+      {
+        status: 400,
+      }
+    );
   }
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    console.log("Checkout session completed:", session);
     try {
-      const order = await createOrderInSanity(session);
-      console.log("Order created in Sanity:", order);
+      await createOrderInSanity(session);
     } catch (error) {
-      console.log("Error creating order in Sanity:", error);
+      console.log("Error processing checkout session:", error);
       return NextResponse.json(
-        { error: "Error creating order in Sanity" },
+        { error: "Error processing checkout session" },
         { status: 500 }
       );
     }
@@ -65,7 +65,7 @@ async function createOrderInSanity(session: Stripe.Checkout.Session) {
   } = session;
 
   const { orderNumber, customerName, customerEmail, clerkUserId } =
-    metadata as MetaData;
+    metadata as Metadata;
 
   const lineItemsWithProduct = await stripe.checkout.sessions.listLineItems(
     id,
@@ -75,7 +75,7 @@ async function createOrderInSanity(session: Stripe.Checkout.Session) {
   );
 
   const sanityProducts = lineItemsWithProduct.data.map((item) => ({
-    k_key: crypto.randomUUID(),
+    _key: crypto.randomUUID(),
     product: {
       _type: "reference",
       _ref: (item.price?.product as Stripe.Product)?.metadata?.id,
@@ -90,7 +90,7 @@ async function createOrderInSanity(session: Stripe.Checkout.Session) {
     stripePaymentIntentId: payment_intent,
     customerName,
     stripeCustomerId: customer,
-    clerkUserId: clerkUserId,
+    clerkUserId,
     email: customerEmail,
     currency,
     amountDiscount: total_details?.amount_discount

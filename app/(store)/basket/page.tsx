@@ -2,7 +2,7 @@
 
 import {
   createCheckoutSession,
-  MetaData,
+  Metadata,
 } from "@/actions/create-checkout-session";
 import AddToBasketButton from "@/components/add-to-basket-button";
 import Loader from "@/components/loader";
@@ -44,11 +44,11 @@ function BasketPage() {
     setIsLoading(true);
 
     try {
-      const metadata: MetaData = {
+      const metadata: Metadata = {
         orderNumber: crypto.randomUUID(),
         customerName: user?.fullName ?? "Unknown",
         customerEmail: user?.emailAddresses[0]?.emailAddress ?? "Unknown",
-        clerksUserId: user!.id,
+        clerkUserId: user!.id,
       };
 
       const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
