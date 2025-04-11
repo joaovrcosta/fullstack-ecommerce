@@ -4,7 +4,7 @@ import {
   createCheckoutSession,
   Metadata,
 } from "@/actions/create-checkout-session";
-import AddToBasketButton from "@/components/add-to-basket-button";
+import AddToBasketButton from "@/components/increase-to-basket-button";
 import Loader from "@/components/loader";
 import { imageUrl } from "@/lib/imageUrl";
 import useBasketStore from "@/stores/cart-store";
@@ -90,9 +90,10 @@ function BasketPage() {
                   )}
                 </div>
                 <div className="min-w-0">
-                  <h2 className="text-lg sm:text-xl font-semibold truncate">
+                  <h2 className="text-lg sm:text-xl font-semibold truncate max-w-[180px] sm:max-w-[250px]">
                     {item.product.name}
                   </h2>
+
                   <p className="text-sm sm:text-base">
                     Price: $
                     {((item.product.price ?? 0) * item.quantity).toFixed(2)}
@@ -106,7 +107,7 @@ function BasketPage() {
           ))}
         </div>
 
-        <div className="w-full lg:w-80 lg:sticky lg-top-4 h-fit bg-white p-6 border rounded order-first lg:order-last fixed bottom-0 left-0 lg:left-auto">
+        <div className="w-full max-w-full lg:w-80 lg:sticky top-4 h-fit bg-white p-6 border rounded order-first lg:order-last">
           <h3 className="text-xl font-semibold">Order Summary</h3>
           <div className="mt-4 space-y-2">
             <p className="flex justify-between">

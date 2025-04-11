@@ -9,15 +9,16 @@ export function ProductThumb({ product }: { product: Product }) {
   return (
     <Link
       href={`/product/${product.slug?.current}`}
-      className={`group flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden ${isOutOfStock ? "opacity-50" : ""}`}
+      className={`group flex flex-col bg-white rounded-[4px] border border-[#c5cbcd] hover:shadow-md transition-all duration-200 overflow-hidden p-4 ${isOutOfStock ? "opacity-50" : ""}`}
     >
-      <div className="relative aspect-square w-full h-full overflow-hidden">
+      <div className="relative aspect-square max-h-[136px] w-full overflow-hidden flex items-center justify-center">
         {product.image && (
           <Image
-            className="object-contain transition-transform duration-300 group-hover:scale-105"
+            className="max-h-[136px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             src={imageUrl(product.image).url()}
             alt={product.name || "Product Image"}
-            fill
+            width={200}
+            height={136}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
@@ -29,8 +30,8 @@ export function ProductThumb({ product }: { product: Product }) {
         )}
       </div>
 
-      <div className="p-4">
-        <h2 className="text-lg font-semibold text-gray-800 truncate">
+      <div className="">
+        <h2 className="text-[13px] font-base text-[#0457c8] truncate">
           {product.name}
         </h2>
 
@@ -43,7 +44,7 @@ export function ProductThumb({ product }: { product: Product }) {
             )
             .join("")}
         </p>
-        <p className="mt-2 text-lg font-bold text-gray-800">
+        <p className="mt-2 text-[25px] font-bold text-gray-800">
           {product.price?.toLocaleString("en-US", {
             style: "currency",
             currency: "USD",

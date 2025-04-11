@@ -7,9 +7,12 @@ export interface BasketItem {
   quantity: number;
 }
 
+// ... (o código que você já tem)
+
 interface BasketState {
   items: BasketItem[];
   addItem: (product: Product) => void;
+  addItemIfNotExists: (product: Product) => void; // Novo método aqui
   removeItem: (productId: string) => void;
   clearBasket: () => void;
   getTotalPrice: () => number;
@@ -22,7 +25,6 @@ const useBasketStore = create<BasketState>()(
     (set, get) => ({
       items: [],
 
-      // Add item to basket
       addItem: (product) =>
         set((state) => {
           const existingItem = state.items.find(
@@ -30,13 +32,11 @@ const useBasketStore = create<BasketState>()(
           );
           if (existingItem) {
             return {
-              items: state.items.map((item) => {
-                if (item.product._id === product._id) {
-                  return { ...item, quantity: item.quantity + 1 };
-                } else {
-                  return item;
-                }
-              }),
+              items: state.items.map((item) =>
+                item.product._id === product._id
+                  ? { ...item, quantity: item.quantity + 1 }
+                  : item
+              ),
             };
           } else {
             return {
@@ -44,8 +44,20 @@ const useBasketStore = create<BasketState>()(
             };
           }
         }),
-      // Remove item from basket
-      removeItem: (productId: string) =>
+
+      // ✅ Novo método: só adiciona se ainda não existir no carrinho
+      addItemIfNotExists: (product) =>
+        set((state) => {
+          const exists = state.items.some(
+            (item) => item.product._id === product._id
+          );
+          if (exists) return {}; // não faz nada
+          return {
+            items: [...state.items, { product, quantity: 1 }],
+          };
+        }),
+
+      removeItem: (productId) =>
         set((state) => ({
           items: state.items.reduce((acc, item) => {
             if (item.product._id === productId) {
@@ -58,19 +70,22 @@ const useBasketStore = create<BasketState>()(
             return acc;
           }, [] as BasketItem[]),
         })),
+
       clearBasket: () => set({ items: [] }),
+
       getTotalPrice: () =>
         get().items.reduce(
           (total, item) => total + (item.product.price ?? 0) * item.quantity,
           0
         ),
+
       getItemCount: (productId) => {
         const item = get().items.find((item) => item.product._id === productId);
         return item ? item.quantity : 0;
       },
+
       getGroupedItems: () => get().items,
     }),
-
     {
       name: "basket-store",
     }
