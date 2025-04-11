@@ -43,11 +43,11 @@ export function CategorySelectorComponent({
           variant={"outline"}
           role="combobox"
           aria-expanded={open}
-          className=" min-w-28 max-w-full relative flex justify-between sm:flex-none items-center space-x-2 bg-blue-500 hover:bg-blue-700 hover:text-white text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline truncate"
+          className=" min-w-28 max-w-full relative flex justify-between sm:flex-none items-center space-x-2 bg-white border text-black hover:text-black font-base py-2 px-4 rounded focus:outline-none focus:shadow-outline truncate"
         >
           {value
             ? categories.find((category) => category._id === value)?.title
-            : "Filtrar por categoria"}
+            : "Filter By Category"}
           <ChevronsUpDown className="w-4 h-4 shrink-0" />
         </Button>
       </PopoverTrigger>
